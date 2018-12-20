@@ -10,15 +10,15 @@
 void *Producer();
 void *Consumer();
 
-int BufferIndex=-1;
+int BufferIndex = -1;
 int *BUFFER;
 
-pthread_cond_t Buffer_Not_Full=PTHREAD_COND_INITIALIZER;
-pthread_cond_t Buffer_Not_Empty=PTHREAD_COND_INITIALIZER;
+pthread_cond_t Buffer_Not_Full = PTHREAD_COND_INITIALIZER;
+pthread_cond_t Buffer_Not_Empty = PTHREAD_COND_INITIALIZER;
 
-pthread_mutex_t mVar_ALL=PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mVar_c_check=PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mVar_p_check=PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mVar_ALL = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mVar_c_check = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mVar_p_check = PTHREAD_MUTEX_INITIALIZER;
 
 int main()
 {
@@ -65,8 +65,6 @@ void *Producer()
         if(BufferIndex == BufferSize - 1)
 
             pthread_cond_wait(&Buffer_Not_Full, &mVar_ALL);
-
-
 
         pthread_mutex_unlock(&mVar_p_check);
 
