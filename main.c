@@ -6,6 +6,8 @@
 # define P_NUM_OF_PRODUCTS 40
 # define C_NUM_OF_PRODUCTS 30
 # define LIMIT 1000000
+# define NUM_OF_PRUD 3
+# define NUM_OF_CON 4
 
 void *Producer();
 void *Consumer();
@@ -23,27 +25,23 @@ pthread_mutex_t mVar_p_check = PTHREAD_MUTEX_INITIALIZER;
 int main()
 {
 
-    pthread_t ptid_A, ptid_B, ptid_C, ctid_A, ctid_B, ctid_C, ctid_D;
+    int i;
+    pthread_t thraeds [7];
 
     BUFFER = (int *) malloc (BufferSize * sizeof(int));
 
-    pthread_create(&ptid_A,NULL,Producer,NULL);
-    pthread_create(&ptid_B,NULL,Producer,NULL);
-    pthread_create(&ptid_C,NULL,Producer,NULL);
+    for (i = 0; i < NUM_OF_PRUD; i++)
 
-    pthread_create(&ctid_A,NULL,Consumer,NULL);
-    pthread_create(&ctid_B,NULL,Consumer,NULL);
-    pthread_create(&ctid_C,NULL,Consumer,NULL);
-    pthread_create(&ctid_D,NULL,Consumer,NULL);
+        pthread_create(&thraeds[i],NULL,Producer,NULL);
 
-    pthread_join(ptid_A,NULL);
-    pthread_join(ptid_B,NULL);
-    pthread_join(ptid_C,NULL);
 
-    pthread_join(ctid_A,NULL);
-    pthread_join(ctid_B,NULL);
-    pthread_join(ctid_C,NULL);
-    pthread_join(ctid_D,NULL);
+    for (i = NUM_OF_PRUD ; i < NUM_OF_CON + NUM_OF_PRUD; i++)
+
+        pthread_create(&thraeds[i],NULL,Consumer,NULL);
+
+    for (i = 0; i < NUM_OF_PRUD + NUM_OF_CON; i++)
+
+        pthread_join(thraeds[i],NULL);
 
     return 0;
 }
